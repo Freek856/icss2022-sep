@@ -45,10 +45,12 @@ ASSIGNMENT_OPERATOR: ':=';
 
 
 //--- PARSER: ---
-stylesheet: stylerule;
+stylesheet: stylerule* EOF;
 stylerule: tagSelector OPEN_BRACE declaration+ CLOSE_BRACE;
-tagSelector: LOWER_IDENT;
+tagSelector: ID_IDENT | CLASS_IDENT | LOWER_IDENT;
 declaration: property COLON expression SEMICOLON;
 property: LOWER_IDENT;
-expression: PIXELSIZE | COLOR;
+expression:
+    PIXELSIZE #pixelLiteral
+    | COLOR #colorLiteral;
 
