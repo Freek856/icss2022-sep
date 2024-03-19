@@ -45,12 +45,23 @@ ASSIGNMENT_OPERATOR: ':=';
 
 
 //--- PARSER: ---
-stylesheet: stylerule* EOF;
+stylesheet: (variableAssignment | stylerule)* EOF;
+variableAssignment: variable ASSIGNMENT_OPERATOR literal SEMICOLON;
+variable: CAPITAL_IDENT;
 stylerule: tagSelector OPEN_BRACE declaration+ CLOSE_BRACE;
 tagSelector: ID_IDENT | CLASS_IDENT | LOWER_IDENT;
-declaration: property COLON expression SEMICOLON;
+declaration: property COLON literal (operation literal)* SEMICOLON;
+operation: PLUS | MIN | MUL;
 property: LOWER_IDENT;
-expression:
+literal:
     PIXELSIZE #pixelLiteral
-    | COLOR #colorLiteral;
+    | COLOR #colorLiteral
+    | (TRUE | FALSE) #boolLiteral
+    | CAPITAL_IDENT #variableReference
+    | SCALAR #scalarLiteral;
+expression:
+    literal
+    | expression (MUL) expression
+    | expression (PLUS | MIN ) expression;
+
 
