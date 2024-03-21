@@ -63,15 +63,14 @@ public class ASTListener extends ICSSBaseListener {
 		currentContainer.peek().addChild(stylerule);
 	}
 
-//	//-----tagSelector-----
-//	public void enterTagSelector(ICSSParser.TagSelectorContext ctx){
-//		Selector selector = new TagSelector(ctx.getText());
-//		currentContainer.push(selector);
+//	public void enterVariableAssignment(ICSSParser.VariableAssignmentContext ctx){
+//		VariableAssignment variableAssignment = new VariableAssignment();
+//		currentContainer.push(variableAssignment);
 //	}
 //
-//	public void exitTagSelector(ICSSParser.TagSelectorContext ctx){
-//		ASTNode selector = (Selector) currentContainer.pop();
-//		currentContainer.peek().addChild(selector);
+//	public void exitVariableAssignment(ICSSParser.VariableAssignmentContext ctx){
+//		VariableAssignment variableAssignment = (VariableAssignment) currentContainer.pop();
+//		currentContainer.peek().addChild(variableAssignment);
 //	}
 
 	//-----Declaration-----
@@ -101,8 +100,14 @@ public class ASTListener extends ICSSBaseListener {
 		currentContainer.push(pixelLiteral);
 	}
 	public void exitPixelLiteral(ICSSParser.PixelLiteralContext ctx){
-		ASTNode pixelLiteral = (PixelLiteral) currentContainer.pop();
-		currentContainer.peek().addChild(pixelLiteral);
+		if(currentContainer.peek() instanceof VariableReference){
+			VariableReference variableReference = (VariableReference) currentContainer.pop();
+			currentContainer.peek().addChild(variableReference);
+		}
+		else {
+			ASTNode pixelLiteral = (PixelLiteral) currentContainer.pop();
+			currentContainer.peek().addChild(pixelLiteral);
+		}
 	}
 
 	//-----ColorLiteral-----

@@ -58,12 +58,16 @@ ifClause: IF BOX_BRACKET_OPEN variable BOX_BRACKET_CLOSE OPEN_BRACE (declaration
 elseClause: ELSE OPEN_BRACE (declaration|ifClause|elseClause)+ CLOSE_BRACE;
 operation: PLUS | MIN | MUL;
 property: LOWER_IDENT;
-literal:
-    PIXELSIZE #pixelLiteral
-    | COLOR #colorLiteral
-    | (TRUE | FALSE) #boolLiteral
-    | CAPITAL_IDENT #variableReference
-    | SCALAR #scalarLiteral;
+
+//literals
+boolLiteral: TRUE | FALSE;
+colorLiteral: COLOR;
+percentageLiteral: PERCENTAGE;
+pixelLiteral: PIXELSIZE;
+scalarLiteral: SCALAR;
+variableReference: CAPITAL_IDENT;
+literal: boolLiteral | colorLiteral | percentageLiteral | pixelLiteral | scalarLiteral | variableReference;
+
 expression:
     literal
     | expression (MUL) expression
