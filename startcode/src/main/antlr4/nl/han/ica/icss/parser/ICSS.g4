@@ -48,13 +48,12 @@ ASSIGNMENT_OPERATOR: ':=';
 //het hele bestand
 stylesheet: (variableAssignment | stylerule)* EOF;
 //Losse variabele boven aan
-variableAssignment: variable ASSIGNMENT_OPERATOR literal SEMICOLON;
-variable: CAPITAL_IDENT;
+variableAssignment: variableReference ASSIGNMENT_OPERATOR expression+ SEMICOLON;
 //methodes
 stylerule: tagSelector OPEN_BRACE (declaration|ifClause|elseClause)+ CLOSE_BRACE;
 tagSelector: ID_IDENT | CLASS_IDENT | LOWER_IDENT;
 declaration: property COLON literal (operation literal)* SEMICOLON;
-ifClause: IF BOX_BRACKET_OPEN variable BOX_BRACKET_CLOSE OPEN_BRACE (declaration|ifClause|elseClause)+ CLOSE_BRACE;
+ifClause: IF BOX_BRACKET_OPEN variableReference BOX_BRACKET_CLOSE OPEN_BRACE (declaration|ifClause|elseClause)+ CLOSE_BRACE;
 elseClause: ELSE OPEN_BRACE (declaration|ifClause|elseClause)+ CLOSE_BRACE;
 operation: PLUS | MIN | MUL;
 property: LOWER_IDENT;
@@ -66,7 +65,12 @@ percentageLiteral: PERCENTAGE;
 pixelLiteral: PIXELSIZE;
 scalarLiteral: SCALAR;
 variableReference: CAPITAL_IDENT;
-literal: boolLiteral | colorLiteral | percentageLiteral | pixelLiteral | scalarLiteral | variableReference;
+literal: boolLiteral
+    | colorLiteral
+    | percentageLiteral
+    | pixelLiteral
+    | scalarLiteral
+    | variableReference;
 
 expression:
     literal

@@ -63,15 +63,15 @@ public class ASTListener extends ICSSBaseListener {
 		currentContainer.peek().addChild(stylerule);
 	}
 
-//	public void enterVariableAssignment(ICSSParser.VariableAssignmentContext ctx){
-//		VariableAssignment variableAssignment = new VariableAssignment();
-//		currentContainer.push(variableAssignment);
-//	}
-//
-//	public void exitVariableAssignment(ICSSParser.VariableAssignmentContext ctx){
-//		VariableAssignment variableAssignment = (VariableAssignment) currentContainer.pop();
-//		currentContainer.peek().addChild(variableAssignment);
-//	}
+	public void enterVariableAssignment(ICSSParser.VariableAssignmentContext ctx){
+		VariableAssignment variableAssignment = new VariableAssignment();
+		currentContainer.push(variableAssignment);
+	}
+
+	public void exitVariableAssignment(ICSSParser.VariableAssignmentContext ctx){
+		VariableAssignment variableAssignment = (VariableAssignment) currentContainer.pop();
+		currentContainer.peek().addChild(variableAssignment);
+	}
 
 	//-----Declaration-----
 	public void enterDeclaration(ICSSParser.DeclarationContext ctx){
