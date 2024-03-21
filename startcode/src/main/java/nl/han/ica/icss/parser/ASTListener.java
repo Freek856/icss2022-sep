@@ -36,27 +36,43 @@ public class ASTListener extends ICSSBaseListener {
     }
 
 	@Override
+	public void enterStylesheet(ICSSParser.StylesheetContext ctx) {
+		Stylesheet stylesheet = new Stylesheet();
+		currentContainer.push(stylesheet);
+	}
+	@Override
+	public void exitStylesheet(ICSSParser.StylesheetContext ctx) {
+		ast.root = (Stylesheet) currentContainer.pop();
+	}
+	@Override
 	//-----stylerule-----
 	public void enterStylerule(ICSSParser.StyleruleContext ctx){
 		Stylerule stylerule = new Stylerule();
+		if (ctx.getChild(0).getText().startsWith("#")) {
+			stylerule.addChild(new IdSelector(ctx.getChild(0).getText()));
+		} else if (ctx.getChild(0).getText().startsWith(".")) {
+			stylerule.addChild(new ClassSelector(ctx.getChild(0).getText()));
+		} else {
+			stylerule.addChild(new TagSelector(ctx.getChild(0).getText()));
+		}
 		currentContainer.push(stylerule);
 	}
 
 	public void exitStylerule(ICSSParser.StyleruleContext ctx){
-		Stylerule stylerule = (Stylerule) currentContainer.pop();
+		ASTNode stylerule = (Stylerule) currentContainer.pop();
 		currentContainer.peek().addChild(stylerule);
 	}
 
-	//-----tagSelector-----
-	public void enterTagSelector(ICSSParser.TagSelectorContext ctx){
-		Selector selector = new TagSelector(ctx.getText());
-		currentContainer.push(selector);
-	}
-
-	public void exitTagSelector(ICSSParser.TagSelectorContext ctx){
-		ASTNode selector = (Selector) currentContainer.pop();
-		currentContainer.peek().addChild(selector);
-	}
+//	//-----tagSelector-----
+//	public void enterTagSelector(ICSSParser.TagSelectorContext ctx){
+//		Selector selector = new TagSelector(ctx.getText());
+//		currentContainer.push(selector);
+//	}
+//
+//	public void exitTagSelector(ICSSParser.TagSelectorContext ctx){
+//		ASTNode selector = (Selector) currentContainer.pop();
+//		currentContainer.peek().addChild(selector);
+//	}
 
 	//-----Declaration-----
 	public void enterDeclaration(ICSSParser.DeclarationContext ctx){
@@ -98,5 +114,38 @@ public class ASTListener extends ICSSBaseListener {
 	public void exitColorLiteral(ICSSParser.ColorLiteralContext ctx){
 		ASTNode colorLiteral = (ColorLiteral) currentContainer.pop();
 		currentContainer.peek().addChild(colorLiteral);
+	}
+
+	//-----BoolLiteral-----
+	public void enterBoolLiteral(ICSSParser.BoolLiteralContext ctx) {
+		BoolLiteral boolLiteral = new BoolLiteral(ctx.getText());
+		currentContainer.push(boolLiteral);
+	}
+
+	public void exitBoolLiteral(ICSSParser.BoolLiteralContext ctx){
+		ASTNode boolLiteral = (BoolLiteral) currentContainer.pop();
+		currentContainer.peek().addChild(boolLiteral);
+	}
+
+	//-----ScalarLiteral-----
+	public void enterScalarLiteral(ICSSParser.ScalarLiteralContext ctx) {
+		ScalarLiteral scalarLiteral = new ScalarLiteral(ctx.getText());
+		currentContainer.push(scalarLiteral);
+	}
+
+	public void exitScalarLiteral(ICSSParser.ScalarLiteralContext ctx){
+		ASTNode scalarLiteral = (ScalarLiteral) currentContainer.pop();
+		currentContainer.peek().addChild(scalarLiteral);
+	}
+
+	//-----VariableReference-----
+	public void enterVariableReference(ICSSParser.VariableReferenceContext ctx){
+		VariableReference variableReference = new VariableReference(ctx.getText());
+		currentContainer.push(variableReference);
+	}
+
+	public void exitVariableReference(ICSSParser.VariableReferenceContext ctx){
+		ASTNode variableReference = (VariableReference) currentContainer.pop();
+		currentContainer.peek().addChild(variableReference);
 	}
 }
