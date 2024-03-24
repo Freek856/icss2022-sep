@@ -47,15 +47,19 @@ ASSIGNMENT_OPERATOR: ':=';
 //--- PARSER: ---
 //het hele bestand
 stylesheet: (variableAssignment | stylerule)* EOF;
+
 //Losse variabele boven aan
 variableAssignment: variableReference ASSIGNMENT_OPERATOR expression+ SEMICOLON;
+
 //methodes
 stylerule: tagSelector OPEN_BRACE (declaration|ifClause|elseClause)+ CLOSE_BRACE;
 tagSelector: ID_IDENT | CLASS_IDENT | LOWER_IDENT;
-declaration: property COLON literal (operation literal)* SEMICOLON;
+declaration: property COLON expression* SEMICOLON;
+
+// if / else statements
 ifClause: IF BOX_BRACKET_OPEN variableReference BOX_BRACKET_CLOSE OPEN_BRACE (declaration|ifClause|elseClause)+ CLOSE_BRACE;
 elseClause: ELSE OPEN_BRACE (declaration|ifClause|elseClause)+ CLOSE_BRACE;
-operation: PLUS | MIN | MUL;
+
 property: LOWER_IDENT;
 
 //literals
@@ -72,9 +76,14 @@ literal: boolLiteral
     | scalarLiteral
     | variableReference;
 
+//operators
+addOperation: PLUS;
+multiplyOperation: MUL;
+substractOperation: MIN;
+
 expression:
     literal
-    | expression (MUL) expression
-    | expression (PLUS | MIN ) expression;
+    | expression multiplyOperation expression
+    | expression (addOperation | substractOperation ) expression;
 
 
