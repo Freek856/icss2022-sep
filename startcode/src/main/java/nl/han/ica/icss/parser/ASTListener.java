@@ -95,13 +95,17 @@ public class ASTListener extends ICSSBaseListener {
 
 	//-----OPERATIONS-----
 	@Override
-	public void enterAddOperation(ICSSParser.AddOperationContext ctx){
-		AddOperation addOperation = new AddOperation();
-		currentContainer.push(addOperation);
+	public void enterAddOrSubstractOperation(ICSSParser.AddOrSubstractOperationContext ctx){
+		if (ctx.getChild(1).getText().equals("+")) {
+			currentContainer.push(new AddOperation());
+		}
+		if (ctx.getChild(1).getText().equals("-")) {
+			currentContainer.push(new SubtractOperation());
+		}
 	}
-	public void exitAddOperation(ICSSParser.AddOperationContext ctx){
-		AddOperation addOperation = (AddOperation) currentContainer.pop();
-		currentContainer.peek().addChild(addOperation);
+	public void exitAddOrSubstractOperation(ICSSParser.AddOrSubstractOperationContext ctx){
+		Operation operation = (Operation) currentContainer.pop();
+		currentContainer.peek().addChild(operation);
 	}
 
 	public void enterMultiplyOperation(ICSSParser.MultiplyOperationContext ctx){
@@ -111,15 +115,6 @@ public class ASTListener extends ICSSBaseListener {
 	public void exitMultiplyOperation(ICSSParser.MultiplyOperationContext ctx){
 		MultiplyOperation multiplyOperation = (MultiplyOperation) currentContainer.pop();
 		currentContainer.peek().addChild(multiplyOperation);
-	}
-
-	public void enterSubstractOperation(ICSSParser.SubstractOperationContext ctx){
-		SubtractOperation substractOperation = new SubtractOperation();
-		currentContainer.push(substractOperation);
-	}
-	public void exitSubstractOperation(ICSSParser.SubstractOperationContext ctx){
-		SubtractOperation substractOperation = (SubtractOperation) currentContainer.pop();
-		currentContainer.peek().addChild(substractOperation);
 	}
 
 	//-----LITERALS-----
@@ -216,4 +211,5 @@ public class ASTListener extends ICSSBaseListener {
 		ASTNode elseClause = (ElseClause) currentContainer.pop();
 		currentContainer.peek().addChild(elseClause);
 	}
+
 }

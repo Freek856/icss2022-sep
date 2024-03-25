@@ -76,14 +76,8 @@ literal: boolLiteral
     | scalarLiteral
     | variableReference;
 
-//operators
-addOperation: PLUS;
-multiplyOperation: MUL;
-substractOperation: MIN;
-
 expression:
-    literal
-    | expression multiplyOperation expression
-    | expression (addOperation | substractOperation ) expression;
-
+    literal #literalExpression
+    | expression MUL expression #multiplyOperation
+    | expression (PLUS | MIN) expression #addOrSubstractOperation;
 
