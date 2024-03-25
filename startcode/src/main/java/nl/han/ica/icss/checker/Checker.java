@@ -57,29 +57,55 @@ public class Checker {
     private void checkDeclaration(Declaration declaration){
         ExpressionType expressionType = checkExpression(declaration.expression);
         if (expressionType != ExpressionType.UNDEFINED){
-            if(declaration.property.name == "background-color"){
-                if (expressionType != ExpressionType.COLOR){
+
+            switch (declaration.property.name){
+                case "background-color":
+                    if (expressionType != ExpressionType.COLOR){
                     declaration.setError("Je kan bij backgroundColor alleen een color expressie gebruiken.");
-                }
-            }
-            else if(declaration.property.name == "color"){
-                if (expressionType != ExpressionType.COLOR){
+                    }
+                    break;
+                case "color":
+                    if (expressionType != ExpressionType.COLOR){
                     declaration.setError("Je kan bij color alleen een color expressie gebruiken.");
-                }
-            }
-            else if (declaration.property.name == "width"){
-                if (expressionType != ExpressionType.PIXEL && expressionType != ExpressionType.PERCENTAGE){
+                    }
+                    break;
+                case "width":
+                    if (expressionType != ExpressionType.PIXEL && expressionType != ExpressionType.PERCENTAGE){
                     declaration.setError("Je kan bij width alleen een procent of pixel expressie gebruiken.");
-                }
-            }
-            else if (declaration.property.name == "height"){
-                if (expressionType != ExpressionType.PIXEL && expressionType != ExpressionType.PERCENTAGE){
+                    }
+                    break;
+                case "height":
+                    if (expressionType != ExpressionType.PIXEL && expressionType != ExpressionType.PERCENTAGE){
                     declaration.setError("Je kan bij height alleen een procent of pixel expressie gebruiken.");
-                }
+                    }
+                    break;
+                default:
+                    declaration.setError("Declaration niet gevonden." + declaration.property.name);
+
             }
-            else {
-                declaration.setError("Declaration niet gevonden." + declaration.property.name);
-            }
+//            if(declaration.property.name == "background-color"){
+//                if (expressionType != ExpressionType.COLOR){
+//                    declaration.setError("Je kan bij backgroundColor alleen een color expressie gebruiken.");
+//                }
+//            }
+//            else if(declaration.property.name == "color"){
+//                if (expressionType != ExpressionType.COLOR){
+//                    declaration.setError("Je kan bij color alleen een color expressie gebruiken.");
+//                }
+//            }
+//            else if (declaration.property.name == "width"){
+//                if (expressionType != ExpressionType.PIXEL && expressionType != ExpressionType.PERCENTAGE){
+//                    declaration.setError("Je kan bij width alleen een procent of pixel expressie gebruiken.");
+//                }
+//            }
+//            else if (declaration.property.name == "height"){
+//                if (expressionType != ExpressionType.PIXEL && expressionType != ExpressionType.PERCENTAGE){
+//                    declaration.setError("Je kan bij height alleen een procent of pixel expressie gebruiken.");
+//                }
+//            }
+//            else {
+//                declaration.setError("Declaration niet gevonden." + declaration.property.name);
+//            }
         }
     }
 
