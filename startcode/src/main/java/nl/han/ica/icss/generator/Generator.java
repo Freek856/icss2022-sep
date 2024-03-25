@@ -8,8 +8,6 @@ public class Generator {
 	public String generate(AST ast) {
         return "";
 
-
 	}
 
-	
 }
