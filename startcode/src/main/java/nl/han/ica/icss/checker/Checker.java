@@ -40,7 +40,7 @@ public class Checker {
             checkSelector(selector);
         }
         for (ASTNode ast : stylerule.body){
-            //checkinline
+            checkBetweenBraces(ast);
         }
     }
 
@@ -58,4 +58,18 @@ public class Checker {
             System.out.println("Geen selector gevonden");
         }
     }
+
+    private void checkBetweenBraces(ASTNode betweenBraces){
+        System.out.println("Methodeinhoud: " + betweenBraces.toString());
+        if(betweenBraces instanceof Declaration){
+            //checkDeclaration
+        }
+        else if(betweenBraces instanceof IfClause){
+            //checkIfClause
+        }
+        else if(betweenBraces instanceof ElseClause){
+            //checkElseClause
+        }
+    }
+    //private void checkDeclaration
 }
