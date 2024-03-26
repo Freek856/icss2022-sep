@@ -30,4 +30,9 @@ public class VariableReference extends Expression {
 
 		return Objects.hash(name);
 	}
+
+	@Override
+	public Literal calculate() {
+		return null;
+	}
 }
