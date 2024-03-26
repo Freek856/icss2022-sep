@@ -36,7 +36,6 @@ public class Evaluator implements Transform {
             }
         }
     }
-
     private void applyDeclaration(Declaration declaration) {
         declaration.expression = evaluateExpression(declaration.expression);
     }
@@ -44,15 +43,42 @@ public class Evaluator implements Transform {
     private Expression evaluateExpression(Expression expression) {
         if (expression instanceof Literal){
             return (Literal) expression;
-        }else{
-            return evaluateOperation((Operation) expression);
         }
+        else if (expression instanceof AddOperation){
+            return evaluateAddOperation((Operation) expression);
+        }
+        else if (expression instanceof SubtractOperation){
+            return evaluateSubstractOperation((Operation) expression);
+        }
+        else if (expression instanceof SubtractOperation){
+            return evaluateMultiplyOperation((Operation) expression);
+        }
+        else if (expression instanceof VariableReference){
+            return evaluateVariableReference((Operation) expression);
+        }
+        return expression; //moet deze hier wel?!?!
     }
 
-    private Expression evaluateOperation(Operation expression) {
+    private Expression evaluateAddOperation(Operation expression) {
         PixelLiteral left = (PixelLiteral) evaluateExpression(expression.lhs);
         PixelLiteral right = (PixelLiteral) evaluateExpression(expression.rhs);
         return new PixelLiteral(left.value + right.value);
+    }
 
+    private Expression evaluateSubstractOperation(Operation expression) {
+        PixelLiteral left = (PixelLiteral) evaluateExpression(expression.lhs);
+        PixelLiteral right = (PixelLiteral) evaluateExpression(expression.rhs);
+        return new PixelLiteral(left.value - right.value);
+    }
+
+    private Expression evaluateMultiplyOperation(Operation expression) {
+        PixelLiteral left = (PixelLiteral) evaluateExpression(expression.lhs);
+        PixelLiteral right = (PixelLiteral) evaluateExpression(expression.rhs);
+        return new PixelLiteral(left.value * right.value);
+    }
+
+    private Expression evaluateVariableReference(Operation expression){
+
+        return new PixelLiteral();
     }
 }
