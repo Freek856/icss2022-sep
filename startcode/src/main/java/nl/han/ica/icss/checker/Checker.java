@@ -36,6 +36,7 @@ public class Checker {
     }
 
     private void checkStyleRule(Stylerule stylerule) {
+        variableTypes.addFirst(new HashMap<>());
         System.out.println("Stylerule: " + stylerule.body.toString());
         for(ASTNode node : stylerule.body){
             if(node instanceof Declaration){
@@ -83,29 +84,6 @@ public class Checker {
                     declaration.setError("Declaration niet gevonden." + declaration.property.name);
 
             }
-//            if(declaration.property.name == "background-color"){
-//                if (expressionType != ExpressionType.COLOR){
-//                    declaration.setError("Je kan bij backgroundColor alleen een color expressie gebruiken.");
-//                }
-//            }
-//            else if(declaration.property.name == "color"){
-//                if (expressionType != ExpressionType.COLOR){
-//                    declaration.setError("Je kan bij color alleen een color expressie gebruiken.");
-//                }
-//            }
-//            else if (declaration.property.name == "width"){
-//                if (expressionType != ExpressionType.PIXEL && expressionType != ExpressionType.PERCENTAGE){
-//                    declaration.setError("Je kan bij width alleen een procent of pixel expressie gebruiken.");
-//                }
-//            }
-//            else if (declaration.property.name == "height"){
-//                if (expressionType != ExpressionType.PIXEL && expressionType != ExpressionType.PERCENTAGE){
-//                    declaration.setError("Je kan bij height alleen een procent of pixel expressie gebruiken.");
-//                }
-//            }
-//            else {
-//                declaration.setError("Declaration niet gevonden." + declaration.property.name);
-//            }
         }
     }
 
