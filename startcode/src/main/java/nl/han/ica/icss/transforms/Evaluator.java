@@ -64,7 +64,6 @@ public class Evaluator implements Transform {
         else {
             applyStyleBody(stylerule, stylerule.body);
         }
-
     }
 
     private LinkedList<ASTNode> applyStyleBody(Stylerule stylerule, ArrayList<ASTNode> body) {
