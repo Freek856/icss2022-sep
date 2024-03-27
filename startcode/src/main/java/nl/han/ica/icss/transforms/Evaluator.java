@@ -68,10 +68,7 @@ public class Evaluator implements Transform {
     }
 
     private void evaluateDeclaration(Declaration declaration){
-        Literal literal = evaluateExpression(declaration.expression);
-        assert variableValues.peek() != null;
-        variableValues.peek().put(declaration.property.name, literal);
-        declaration.expression = literal;
+        declaration.expression = evaluateExpression(declaration.expression);
     }
     private List<ASTNode> evaluateIfClause(IfClause ifClause){
         boolean ifIfClause = ((BoolLiteral) Objects.requireNonNull(evaluateExpression(ifClause.conditionalExpression))).value;
