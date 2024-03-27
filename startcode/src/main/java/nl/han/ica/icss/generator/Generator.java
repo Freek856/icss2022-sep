@@ -12,16 +12,20 @@ public class Generator {
         return generateStylesheet(ast);
 	}
 
+	//Genereerd de stylesheet
 	private String generateStylesheet(AST ast) {
 		StringBuilder StyleSheet = new StringBuilder();
 		for (ASTNode node : ast.root.getChildren()){
 			if (node instanceof Stylerule){
+				//Roept per stylerule die gevonden is een create functie daarvoor aan
 				StyleSheet.append(generateStylerool((Stylerule) node));
 			}
 		}
 		return StyleSheet.toString();
 	}
 
+
+	//voegt per stylerule een nieuwe rule toe, met een nieuwe line en met selector ook nog een een { en aan het einde een }
 	private String generateStylerool(Stylerule stylerule) {
 		StringBuilder StyleRule = new StringBuilder();
 		StyleRule.append(stylerule.selectors.get(0).toString()).append(" {\n");
